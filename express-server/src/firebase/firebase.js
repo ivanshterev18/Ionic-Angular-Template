@@ -6,7 +6,7 @@ const fireBaseCred = JSON.parse(process.env.FIREBASE_CREDENTIALS);
 firebase.initializeApp(fireBaseCred);
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
-    databaseURL: 'https://angular-firebase-templat-40a46.firebaseio.com',
+    databaseURL: 'https://ionic-angular-template.firebaseio.com',
   });
 
 class FirebaseOperations {
