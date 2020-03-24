@@ -11,22 +11,26 @@ import { AlertController } from '@ionic/angular';
 })
 export class SignInComponent implements OnInit {
   public signInForm: FormGroup;
-  public email: FormControl;
-  public password: FormControl;
   constructor(
     private authService: AuthService,
     private router: Router,
     private alertCtrl: AlertController,
-    private fb: FormBuilder
+    private formBuilder: FormBuilder
   ) { }
 
   ngOnInit() {
-    this.email = new FormControl('', Validators.compose([Validators.required, Validators.email]));
-    this.password = new FormControl('', Validators.compose([Validators.required, Validators.minLength(6)]));
-    this.signInForm = this.fb.group({
-      email: this.email,
-      password: this.password
+    this.signInForm = this.formBuilder.group({
+      email: new FormControl('', Validators.compose([Validators.required, Validators.email])),
+      password: new FormControl('', Validators.compose([Validators.required, Validators.minLength(6)]))
     });
+  }
+
+  get email() { 
+    return this.signInForm.get('email'); 
+  }
+
+  get password() { 
+    return this.signInForm.get('password'); 
   }
 
   async signIn(email: string, password: string) {

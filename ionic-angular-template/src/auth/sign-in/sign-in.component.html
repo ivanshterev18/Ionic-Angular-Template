@@ -14,12 +14,12 @@
               <ion-label position="floating">E-Mail</ion-label>
               <ion-input
                 type="email"
+                class="form-control"
                 formControlName='email'
-                name="email"
               ></ion-input>
             </ion-item>
             <ion-item
-              *ngIf="!email.valid && email.touched"
+              *ngIf="email.touched && email.invalid"
               lines="none"
             >
               <ion-label>
@@ -30,12 +30,12 @@
               <ion-label position="floating">Password</ion-label>
               <ion-input
                 type="password"
+                class="form-control"
                 formControlName='password'
-                name="password"
               ></ion-input>
             </ion-item>
             <ion-item
-              *ngIf="!password.valid && password.touched"
+              *ngIf="password.touched && password.invalid"
               lines="none"
             >
               <ion-label>
@@ -48,7 +48,6 @@
       <ion-row class="btn">
         <ion-col size-sm="6" offset-sm="3">
           <ion-button
-            type="submit"
             color="primary"
             expand="block"
             [disabled]="!signInForm.valid"
