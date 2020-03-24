@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const bodyParser = require('body-parser');
-const originsWhitelist = 'http://localhost:4200';
+const originsWhitelist = 'http://localhost:8100';
 const authentication = require("./middlewares/auth");
 const corsOptions = {
   origin: function(origin, callback){
