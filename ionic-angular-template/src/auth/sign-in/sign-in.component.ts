@@ -20,8 +20,8 @@ export class SignInComponent implements OnInit {
 
   ngOnInit() {
     this.signInForm = this.formBuilder.group({
-      email: new FormControl('', Validators.compose([Validators.required, Validators.email])),
-      password: new FormControl('', Validators.compose([Validators.required, Validators.minLength(6)]))
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [Validators.required, Validators.minLength(6)])
     });
   }
 
@@ -33,7 +33,9 @@ export class SignInComponent implements OnInit {
     return this.signInForm.get('password'); 
   }
 
-  async signIn(email: string, password: string) {
+  async signIn() {
+    const email = this.signInForm.get('email').value
+    const password = this.signInForm.get('password').value;
     const checkEmailVerified = await this.authService.checkUserEmailVerified(email, password);
     if (checkEmailVerified === undefined) {
       this.showAlert("User with that email doesn't exist!");
