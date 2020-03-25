@@ -47,8 +47,8 @@ export class SignInComponent implements OnInit {
         })
         alert.present();
         }
-      this.authService.signIn().subscribe((d) => {
-          console.log(d);
+      this.authService.signIn().subscribe((userData) => {
+          console.log(userData);
           // this.notificationService.success('Successfully logged!');
           this.router.navigate(['']);
         }, (e) => {
