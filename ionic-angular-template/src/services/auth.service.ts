@@ -58,6 +58,7 @@ export class AuthService {
         return currentUser.user.emailVerified ? true : false;
     } catch (e) {
       // this.notificationService.error('Invalid email or password !');
+      throw new Error(e);
     }
   }
 

@@ -36,27 +36,27 @@ export class SignInComponent implements OnInit {
   async signIn() {
     const email = this.email.value;
     const password = this.password.value;
-    const checkEmailVerified = await this.authService.checkUserEmailVerified(email, password);
-    if (checkEmailVerified === undefined) {
-      this.showAlert("User with that email doesn't exist!");
-      return;
+    try {
+      const checkEmailVerified = await this.authService.checkUserEmailVerified(email, password);
+      if (checkEmailVerified === false) {
+        const alert = await this.alertCtrl
+        .create({
+          header: 'Info Message',
+          message: 'If you want to use all functionalities you have to verify your email first!',
+          buttons: ['Okay']
+        })
+        alert.present();
+        }
+      this.authService.signIn().subscribe((d) => {
+          console.log(d);
+          // this.notificationService.success('Successfully logged!');
+          this.router.navigate(['']);
+        }, (e) => {
+          this.showAlert(e.error.message)
+        });
+    } catch(e) {
+          this.showAlert(e);
     }
-    if (checkEmailVerified === false) {
-      const alert = await this.alertCtrl
-      .create({
-        header: 'Info Message',
-        message: 'If you want to use all functionalities you have to verify your email first!',
-        buttons: ['Okay']
-      })
-      alert.present();
-      }
-    this.authService.signIn().subscribe((d) => {
-        console.log(d);
-        // this.notificationService.success('Successfully logged!');
-        this.router.navigate(['']);
-      }, (e) => {
-        this.showAlert(e.error.message)
-      });
     }
 
     private async showAlert(message: string) {
