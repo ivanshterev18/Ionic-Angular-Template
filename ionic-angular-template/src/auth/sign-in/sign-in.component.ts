@@ -38,7 +38,7 @@ export class SignInComponent implements OnInit {
     const password = this.password.value;
     try {
       const checkEmailVerified = await this.authService.checkUserEmailVerified(email, password);
-      if (checkEmailVerified === false) {
+      if (!checkEmailVerified) {
         const alert = await this.alertCtrl
         .create({
           header: 'Info Message',
