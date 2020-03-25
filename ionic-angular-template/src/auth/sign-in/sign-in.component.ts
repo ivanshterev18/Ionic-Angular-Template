@@ -34,8 +34,8 @@ export class SignInComponent implements OnInit {
   }
 
   async signIn() {
-    const email = this.signInForm.get('email').value
-    const password = this.signInForm.get('password').value;
+    const email = this.email.value;
+    const password = this.password.value;
     const checkEmailVerified = await this.authService.checkUserEmailVerified(email, password);
     if (checkEmailVerified === undefined) {
       this.showAlert("User with that email doesn't exist!");
