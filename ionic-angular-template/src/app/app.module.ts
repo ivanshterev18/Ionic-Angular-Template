@@ -14,6 +14,8 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from '../interceptors/token-interceptor';
+import { SignUpComponent } from '../auth/sign-up/sign-up.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 firebase.initializeApp(environment.firebase);
 
@@ -22,9 +24,10 @@ export function HttpLoaderFactory(http: HttpClient) {
 }
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, SignUpComponent],
   entryComponents: [],
   imports: [
+    ReactiveFormsModule,
     HttpClientModule,
     BrowserModule, 
     IonicModule.forRoot(), 
