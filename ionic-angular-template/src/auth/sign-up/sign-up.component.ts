@@ -37,28 +37,29 @@ export class SignUpComponent implements OnInit {
     const email = this.email.value;
     const password = this.password.value;
     try {
-        (await this.authService.signUp(email, password)).subscribe(async () => {
-        const alert = await this.alertCtrl
-        .create({
-          header: 'Info Message',
-          message: 'If you want to use all functionalities you have to verify your email first!',
-          buttons: ['Okay']
-        })
-        alert.present();
+        await this.authService.signUp(email, password);
+        this.showInfoAlert();
         this.router.navigate(['']);
-        }, (e) => {
-          this.showAlert(e.error.message)
-        });
     } catch(e) {
-      this.showAlert(e.message);
+      this.showErrorAlert(e.message);
     }
   }
 
-  private async showAlert(message: string) {
+  private async showErrorAlert(message: string) {
     const alert = await this.alertCtrl
       .create({
         header: 'Authentication failed',
         message: message,
+        buttons: ['Okay']
+      })
+      alert.present();
+  }
+
+  private async showInfoAlert() {
+    const alert = await this.alertCtrl
+      .create({
+        header: 'Info Message',
+        message: 'If you want to use all functionalities you have to verify your email first!',
         buttons: ['Okay']
       })
       alert.present();

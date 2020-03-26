@@ -35,7 +35,12 @@ export class AuthService {
 
   signIn() {
     return this.api.get(`${environment.apiUrl}/users/wallet`);
-}
+  }
+
+  async createUser(wallet: string, uid: string, email: string) {
+    return this.api.post(`${environment.apiUrl}/users/createUser`, {wallet, uid, email}).toPromise();
+
+  }
 
   async signUp(email: string, password: string) {
     try {
@@ -43,10 +48,8 @@ export class AuthService {
       await currentUser.user.sendEmailVerification();
       const wallet = ethers.Wallet.createRandom();
       const encryptPromise = await wallet.encrypt(password);
-      return this.api.post(`${environment.apiUrl}/users/createUser`, {wallet: encryptPromise, uid: currentUser.user.uid, email}).pipe(tap((user: any) => {
-        // this.storageService.setItem('user', JSON.stringify(currentUser.user));
-        this.loggedUserDataSubject$.next(user.user);
-      }));
+      const user: any = await this.createUser(encryptPromise, currentUser.user.uid, email);
+      this.loggedUserDataSubject$.next(user.user);
     } catch (e) {
       throw new Error(e);
     }
