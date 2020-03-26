@@ -3,6 +3,7 @@ import { NgForm, FormGroup, FormBuilder, Validators, FormControl } from '@angula
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-sign-in',
@@ -10,15 +11,20 @@ import { AlertController } from '@ionic/angular';
   styleUrls: ['./sign-in.component.scss'],
 })
 export class SignInComponent implements OnInit {
+  private infoMessages: any;
   public signInForm: FormGroup;
   constructor(
     private authService: AuthService,
     private router: Router,
     private alertCtrl: AlertController,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private tranlate: TranslateService
   ) { }
 
   ngOnInit() {
+    this.tranlate.get('Info-messages').subscribe((messages) => {
+      this.infoMessages = messages;
+    });
     this.signInForm = this.formBuilder.group({
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required, Validators.minLength(6)])
@@ -39,32 +45,36 @@ export class SignInComponent implements OnInit {
     try {
       const checkEmailVerified = await this.authService.checkUserEmailVerified(email, password);
       if (!checkEmailVerified) {
-        const alert = await this.alertCtrl
-        .create({
-          header: 'Info Message',
-          message: 'If you want to use all functionalities you have to verify your email first!',
-          buttons: ['Okay']
-        })
-        alert.present();
+        this.showInfoAlert();
         }
       this.authService.signIn().subscribe((userData) => {
           console.log(userData);
           // this.notificationService.success('Successfully logged!');
           this.router.navigate(['']);
         }, (e) => {
-          this.showAlert(e.error.message)
+          this.showErrorAlert(e.error.message)
         });
     } catch(e) {
-          this.showAlert(e);
+          this.showErrorAlert(e);
     }
     }
 
-    private async showAlert(message: string) {
+    private async showErrorAlert(message: string) {
       const alert = await this.alertCtrl
         .create({
-          header: 'Authentication failed',
+          header: `${this.infoMessages.authFailed}`,
           message: message,
           buttons: ['Okay']
+        })
+        alert.present();
+    }
+
+    private async showInfoAlert() {
+      const alert = await this.alertCtrl
+        .create({
+          header: `${this.infoMessages.infoMessage}`,
+          message: `${this.infoMessages.message}`,
+          buttons: [`${this.infoMessages.button}`]
         })
         alert.present();
     }
