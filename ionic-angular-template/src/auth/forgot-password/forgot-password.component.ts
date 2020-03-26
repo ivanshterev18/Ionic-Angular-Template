@@ -11,7 +11,7 @@ import { AuthService } from '../../services/auth.service';
 export class ForgotPasswordComponent {
   public forgotPasswordForm: FormGroup;
   constructor(
-    private readonly formBuilder: FormBuilder,
+    private formBuilder: FormBuilder,
     private route: Router,
     // private notificationService: NotificationService,
     private authService: AuthService
