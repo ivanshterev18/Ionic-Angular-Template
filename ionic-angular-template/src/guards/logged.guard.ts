@@ -6,7 +6,7 @@ import { StorageService } from '../services/storage.service';
 @Injectable({
   providedIn: 'root'
 })
-export class LoggedGuard implements CanActivate {
+export class LoggedInGuard implements CanActivate {
   constructor(private storageService: StorageService, private router: Router) {}
   canActivate(
     next: ActivatedRouteSnapshot,
