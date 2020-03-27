@@ -33,9 +33,9 @@ export class AuthService {
     });
   }
 
-  signIn() {
-    return this.api.get(`${environment.apiUrl}/users/wallet`);
-}
+  async getUserData() {
+    return await this.api.get(`${environment.apiUrl}/users/wallet`);
+  }
 
   async signUp(email: string, password: string) {
     try {
@@ -55,9 +55,10 @@ export class AuthService {
   async checkUserEmailVerified(email: string, password: string) {
     try {
         const currentUser = await firebase.auth().signInWithEmailAndPassword(email, password);
-        return currentUser.user.emailVerified ? true : false;
+        return currentUser.user.emailVerified;
     } catch (e) {
       // this.notificationService.error('Invalid email or password !');
+      throw new Error(e);
     }
   }
 

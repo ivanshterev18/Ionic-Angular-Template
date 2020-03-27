@@ -8,7 +8,7 @@ export class Api {
   constructor(public http: HttpClient) {
     }
     get(endpoint: string, reqOpts?: any) {
-      return this.http.get(endpoint, reqOpts);
+      return this.http.get(endpoint, reqOpts).toPromise();
     }
     post(endpoint: string, body: any, reqOpts?: any) {
       return this.http.post(endpoint, body, reqOpts);

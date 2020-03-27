@@ -9,12 +9,14 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { environment } from '../environments/environment';
+import { SignInComponent } from '../auth/sign-in/sign-in.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { HttpClientModule, HttpClient } from '@angular/common/http'; 
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from '../interceptors/token-interceptor';
-import { ReactiveFormsModule } from '@angular/forms';
 import { ForgotPasswordComponent } from '../auth/forgot-password/forgot-password.component';
 
 firebase.initializeApp(environment.firebase);
@@ -24,10 +26,11 @@ export function HttpLoaderFactory(http: HttpClient) {
 }
 
 @NgModule({
-  declarations: [AppComponent, ForgotPasswordComponent],
+  declarations: [AppComponent, SignInComponent, ForgotPasswordComponent],
   entryComponents: [],
   imports: [
     ReactiveFormsModule,
+    CommonModule,
     HttpClientModule,
     BrowserModule, 
     IonicModule.forRoot(), 
