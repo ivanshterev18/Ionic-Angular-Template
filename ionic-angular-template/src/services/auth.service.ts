@@ -47,8 +47,8 @@ export class AuthService {
       const currentUser = await firebase.auth().createUserWithEmailAndPassword(email, password);
       await currentUser.user.sendEmailVerification();
       const wallet = ethers.Wallet.createRandom();
-      const encryptPromise = await wallet.encrypt(password);
-      const user: any = await this.createUser(encryptPromise, currentUser.user.uid, email);
+      const encryptJson = await wallet.encrypt(password);
+      const user: any = await this.createUser(encryptJson, currentUser.user.uid, email);
       this.loggedUserDataSubject$.next(user.user);
     } catch (e) {
       throw new Error(e);

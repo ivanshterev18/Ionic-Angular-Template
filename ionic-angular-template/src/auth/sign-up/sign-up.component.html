@@ -8,7 +8,7 @@
     <ion-grid>
       <ion-row>
         <ion-col size-sm="6" offset-sm="3">
-          <form [formGroup]="signUpForm" padding class="authForm">
+          <form [formGroup]="signUpForm" class="auth-form">
             <ion-list>
               <ion-item>
                 <ion-label position="floating">E-Mail</ion-label>
@@ -44,7 +44,7 @@
               </ion-item>
             </ion-list>
             <ion-button
-            class="authButton"
+            class="auth-button"
             color="primary"
             expand="block"
             [disabled]="!signUpForm.valid"
