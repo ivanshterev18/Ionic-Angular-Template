@@ -25,7 +25,7 @@ export class ForgotPasswordComponent {
     return this.forgotPasswordForm.get('email'); 
   }
 
-   async sentEmail() {
+   async sendEmail() {
     await this.authService.sentResetPasswordEmail(this.email.value);
     //  this.notificationService.success('Email was sent!');
     //  this.route.navigate(['/signin']);
