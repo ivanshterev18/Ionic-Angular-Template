@@ -33,7 +33,7 @@ export class AuthService {
     });
   }
 
-  async signIn() {
+  async getUserData() {
     return await this.api.get(`${environment.apiUrl}/users/wallet`);
   }
 

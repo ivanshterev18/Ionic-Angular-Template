@@ -47,9 +47,9 @@ export class SignInComponent implements OnInit {
       if (!checkEmailVerified) {
         this.showInfoAlert();
         }
-        await this.authService.signIn();
+        await this.authService.getUserData();
           // this.notificationService.success('Successfully logged!');
-          this.router.navigate(['']);
+        this.router.navigate(['']);
         } catch(e) {
               this.showErrorAlert(e);
         }
