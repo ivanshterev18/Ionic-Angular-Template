@@ -18,12 +18,14 @@ export class SignUpComponent implements OnInit {
     private router: Router,
     private alertCtrl: AlertController,
     private formBuilder: FormBuilder,
-    private tranlateService: TranslateService
+    private translateService: TranslateService
   ) { }
 
   ngOnInit() {
-    this.tranlateService.get('Info-messages').subscribe((messages) => {
-      this.infoMessages = messages;
+    this.translateService.stream([
+      'info-messages',
+    ]).subscribe(translations => {
+      this.infoMessages = translations['info-messages']
     });
     this.signUpForm = this.formBuilder.group({
       email: new FormControl('', [Validators.required, Validators.email]),
@@ -44,7 +46,7 @@ export class SignUpComponent implements OnInit {
     const password = this.password.value;
     try {
         await this.authService.signUp(email, password);
-        this.showInfoAlert();
+        await this.showInfoAlert();
         this.router.navigate(['']);
     } catch(e) {
       this.showErrorAlert(e.message);
