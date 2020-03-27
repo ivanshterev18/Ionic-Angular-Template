@@ -4,8 +4,8 @@ import { ethers } from 'ethers';
 import { BehaviorSubject } from 'rxjs';
 import { environment } from '../environments/environment';
 import { Api } from './api.service';
-import { tap } from 'rxjs/operators';
 import { StorageService } from './storage.service';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -77,12 +77,16 @@ export class AuthService {
       await firebase.auth().confirmPasswordReset(code, newPassword);
       const currentUser = await firebase.auth().signInWithEmailAndPassword(email, newPassword);
       const wallet = ethers.Wallet.createRandom();
-      const encryptPromise = await wallet.encrypt(newPassword);
-      await this.api.put(`${environment.apiUrl}/users/wallet`, {uid: currentUser.user.uid, wallet: encryptPromise});
+      const encryptJson = await wallet.encrypt(newPassword);
+      await this.resetWallet(currentUser.user.uid, encryptJson);
       await this.logout();
     } catch (e) {
       // this.notificationService.error(e.message);
     }
+  }
+
+  async resetWallet(uid: string, wallet: string) {
+    await this.api.put(`${environment.apiUrl}/users/wallet`, {uid, wallet});
   }
 
   async getUserDataIfAuthenticated() {
