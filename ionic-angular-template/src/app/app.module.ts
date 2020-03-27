@@ -17,6 +17,7 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from '../interceptors/token-interceptor';
+import { ForgotPasswordComponent } from '../auth/forgot-password/forgot-password.component';
 
 firebase.initializeApp(environment.firebase);
 
@@ -25,7 +26,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 }
 
 @NgModule({
-  declarations: [AppComponent, SignInComponent],
+  declarations: [AppComponent, SignInComponent, ForgotPasswordComponent],
   entryComponents: [],
   imports: [
     ReactiveFormsModule,
