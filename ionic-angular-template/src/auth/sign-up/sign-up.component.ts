@@ -18,11 +18,11 @@ export class SignUpComponent implements OnInit {
     private router: Router,
     private alertCtrl: AlertController,
     private formBuilder: FormBuilder,
-    private tranlate: TranslateService
+    private tranlateService: TranslateService
   ) { }
 
   ngOnInit() {
-    this.tranlate.get('Info-messages').subscribe((messages) => {
+    this.tranlateService.get('Info-messages').subscribe((messages) => {
       this.infoMessages = messages;
     });
     this.signUpForm = this.formBuilder.group({
