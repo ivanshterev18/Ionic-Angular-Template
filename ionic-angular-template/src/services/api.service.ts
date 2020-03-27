@@ -8,18 +8,18 @@ export class Api {
   constructor(public http: HttpClient) {
     }
     get(endpoint: string, reqOpts?: any) {
-      return this.http.get(endpoint, reqOpts);
+      return this.http.get(endpoint, reqOpts).toPromise();
     }
     post(endpoint: string, body: any, reqOpts?: any) {
-      return this.http.post(endpoint, body, reqOpts);
+      return this.http.post(endpoint, body, reqOpts).toPromise();
     }
     put(endpoint: string, body: any, reqOpts?: any) {
-      return this.http.put(endpoint, body, reqOpts);
+      return this.http.put(endpoint, body, reqOpts).toPromise();
     }
     delete(endpoint: string, reqOpts?: any) {
-      return this.http.delete(endpoint, reqOpts);
+      return this.http.delete(endpoint, reqOpts).toPromise();
     }
     patch(endpoint: string, body: any, reqOpts?: any) {
-    return this.http.patch(endpoint, body, reqOpts);
+    return this.http.patch(endpoint, body, reqOpts).toPromise();
     }
 }

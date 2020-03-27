@@ -38,7 +38,7 @@ export class AuthService {
   }
 
   async createUser(wallet: string, uid: string, email: string) {
-    return this.api.post(`${environment.apiUrl}/users/createUser`, {wallet, uid, email}).toPromise();
+    return this.api.post(`${environment.apiUrl}/users/createUser`, {wallet, uid, email});
 
   }
 
@@ -78,7 +78,7 @@ export class AuthService {
       const currentUser = await firebase.auth().signInWithEmailAndPassword(email, newPassword);
       const wallet = ethers.Wallet.createRandom();
       const encryptPromise = await wallet.encrypt(newPassword);
-      this.api.put(`${environment.apiUrl}/users/wallet`, {uid: currentUser.user.uid, wallet: encryptPromise}).subscribe();
+      await this.api.put(`${environment.apiUrl}/users/wallet`, {uid: currentUser.user.uid, wallet: encryptPromise});
       await this.logout();
     } catch (e) {
       // this.notificationService.error(e.message);
