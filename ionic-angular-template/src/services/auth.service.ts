@@ -33,9 +33,9 @@ export class AuthService {
     });
   }
 
-  signIn() {
-    return this.api.get(`${environment.apiUrl}/users/wallet`);
-}
+  async signIn() {
+    return await this.api.get(`${environment.apiUrl}/users/wallet`);
+  }
 
   async signUp(email: string, password: string) {
     try {

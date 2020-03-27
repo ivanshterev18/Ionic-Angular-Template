@@ -18,11 +18,11 @@ export class SignInComponent implements OnInit {
     private router: Router,
     private alertCtrl: AlertController,
     private formBuilder: FormBuilder,
-    private tranlate: TranslateService
+    private tranlateService: TranslateService
   ) { }
 
   ngOnInit() {
-    this.tranlate.get('Info-messages').subscribe((messages) => {
+    this.tranlateService.get('Info-messages').subscribe((messages) => {
       this.infoMessages = messages;
     });
     this.signInForm = this.formBuilder.group({
@@ -47,16 +47,12 @@ export class SignInComponent implements OnInit {
       if (!checkEmailVerified) {
         this.showInfoAlert();
         }
-      this.authService.signIn().subscribe((userData) => {
-          console.log(userData);
+        await this.authService.signIn();
           // this.notificationService.success('Successfully logged!');
           this.router.navigate(['']);
-        }, (e) => {
-          this.showErrorAlert(e.error.message)
-        });
-    } catch(e) {
-          this.showErrorAlert(e);
-    }
+        } catch(e) {
+              this.showErrorAlert(e);
+        }
     }
 
     private async showErrorAlert(message: string) {
