@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, ValidationErrors, AbstractControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { Validator } from '../../validators/validator';
 
 @Component({
   selector: 'app-reset-password',
@@ -17,27 +18,22 @@ export class ResetPasswordComponent {
     private activatedRoute: ActivatedRoute,
     private authService: AuthService,
     private readonly formBuilder: FormBuilder,
+    private validator: Validator
     // private notificationService: NotificationService
   ) {
     this.resetPasswordForm = this.formBuilder.group({
       newPassword: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', [Validators.required, Validators.minLength(6)]]
-    },  { validator: this.checkPasswords }) ;
-    this.activateRoute();
+      confirmPassword: ['', [Validators.required, Validators.minLength(6), this.validator.matchValues('newPassword')]]
+    }) ;
+    this.getActivatedRoute();
   }
-
-  activateRoute() {
+  
+  getActivatedRoute() {
     this.activatedRoute.queryParams
     .subscribe(async (params) => {
       this.mode = params.mode;
       this.actionCode = params.oobCode;
   });
-  }
-
-  checkPasswords(group: FormGroup) {
-  let pass = group.get('newPassword').value;
-  let confirmPass = group.get('confirmPassword').value;
-  return pass === confirmPass ? null : { notSame: true }     
   }
 
   get newPassword() { 

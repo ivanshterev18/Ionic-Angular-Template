@@ -20,6 +20,7 @@ import { TokenInterceptor } from '../interceptors/token-interceptor';
 import { ForgotPasswordComponent } from '../auth/forgot-password/forgot-password.component';
 import { SignUpComponent } from '../auth/sign-up/sign-up.component';
 import { ResetPasswordComponent } from '../auth/reset-password/reset-password.component';
+import { Validator } from '../validators/validator';
 
 firebase.initializeApp(environment.firebase);
 
@@ -46,6 +47,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   })
   ],
   providers: [
+    Validator,
     StatusBar,
     SplashScreen,
     { 
