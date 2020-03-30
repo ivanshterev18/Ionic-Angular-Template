@@ -16,18 +16,28 @@ export class ResetPasswordComponent {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private authService: AuthService,
-    private readonly fb: FormBuilder,
+    private readonly formBuilder: FormBuilder,
     // private notificationService: NotificationService
   ) {
-    this.resetPasswordForm = this.fb.group({
+    this.resetPasswordForm = this.formBuilder.group({
       newPassword: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required, Validators.minLength(6)]]
-    });
+    },  { validator: this.checkPasswords }) ;
+    this.activateRoute();
+  }
+
+  activateRoute() {
     this.activatedRoute.queryParams
     .subscribe(async (params) => {
       this.mode = params.mode;
       this.actionCode = params.oobCode;
   });
+  }
+
+  checkPasswords(group: FormGroup) {
+  let pass = group.get('newPassword').value;
+  let confirmPass = group.get('confirmPassword').value;
+  return pass === confirmPass ? null : { notSame: true }     
   }
 
   get newPassword() { 
@@ -40,12 +50,6 @@ export class ResetPasswordComponent {
 
   async resetPassword() {
     const newPassword = this.newPassword.value;
-    const confirmPassword = this.confirmPassword.value;
-    if (newPassword !== confirmPassword) {
-      // this.notificationService.error('New Password and Confirm Password do not match');
-      alert('New Password and Confirm Password do not match');
-      return;
-    }
     const email = await this.authService.verifyPasswordResetCode(this.actionCode);
     await this.authService.resetPassword(newPassword, this.actionCode, email);
     // this.notificationService.success('Your password was changed !');
