@@ -4,8 +4,8 @@ import { ethers } from 'ethers';
 import { BehaviorSubject } from 'rxjs';
 import { environment } from '../environments/environment';
 import { Api } from './api.service';
-import { tap } from 'rxjs/operators';
 import { StorageService } from './storage.service';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -33,6 +33,10 @@ export class AuthService {
     });
   }
 
+  async createUser(wallet: string, uid: string, email: string) {
+    return this.api.post(`${environment.apiUrl}/users/createUser`, {wallet, uid, email});
+  }
+
   async getUserData() {
     return await this.api.get(`${environment.apiUrl}/users/wallet`);
   }
@@ -42,11 +46,9 @@ export class AuthService {
       const currentUser = await firebase.auth().createUserWithEmailAndPassword(email, password);
       await currentUser.user.sendEmailVerification();
       const wallet = ethers.Wallet.createRandom();
-      const encryptPromise = await wallet.encrypt(password);
-      return this.api.post(`${environment.apiUrl}/users/createUser`, {wallet: encryptPromise, uid: currentUser.user.uid, email}).pipe(tap((user: any) => {
-        // this.storageService.setItem('user', JSON.stringify(currentUser.user));
-        this.loggedUserDataSubject$.next(user.user);
-      }));
+      const encryptJson = await wallet.encrypt(password);
+      const user: any = await this.createUser(encryptJson, currentUser.user.uid, email);
+      this.loggedUserDataSubject$.next(user.user);
     } catch (e) {
       throw new Error(e);
     }
@@ -75,12 +77,16 @@ export class AuthService {
       await firebase.auth().confirmPasswordReset(code, newPassword);
       const currentUser = await firebase.auth().signInWithEmailAndPassword(email, newPassword);
       const wallet = ethers.Wallet.createRandom();
-      const encryptPromise = await wallet.encrypt(newPassword);
-      this.api.put(`${environment.apiUrl}/users/wallet`, {uid: currentUser.user.uid, wallet: encryptPromise}).subscribe();
+      const encryptJson = await wallet.encrypt(newPassword);
+      await this.resetWallet(currentUser.user.uid, encryptJson);
       await this.logout();
     } catch (e) {
       // this.notificationService.error(e.message);
     }
+  }
+
+  async resetWallet(uid: string, wallet: string) {
+    await this.api.put(`${environment.apiUrl}/users/wallet`, {uid, wallet});
   }
 
   async getUserDataIfAuthenticated() {
