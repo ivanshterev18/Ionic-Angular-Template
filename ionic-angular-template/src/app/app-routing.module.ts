@@ -3,6 +3,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { ForgotPasswordComponent } from '../auth/forgot-password/forgot-password.component';
 import { SignInComponent } from '../auth/sign-in/sign-in.component';
 import { SignUpComponent } from '../auth/sign-up/sign-up.component';
+import { ResetPasswordComponent } from '../auth/reset-password/reset-password.component';
 
 const routes: Routes = [
   { 
@@ -28,6 +29,11 @@ const routes: Routes = [
   { 
     path: 'forgotPassword', 
     component: ForgotPasswordComponent, 
+    pathMatch: 'full'
+  },  
+  { 
+    path: 'resetPassword', 
+    component: ResetPasswordComponent, 
     pathMatch: 'full'
   },  
 ];
