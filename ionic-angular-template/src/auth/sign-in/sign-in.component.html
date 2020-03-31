@@ -54,7 +54,7 @@
             <ion-button
             color="primary"
             expand="block"
-            [disabled]="!signInForm.valid"
+            [disabled]="signInForm.invalid"
             (click)='signIn()'
           >
             Login
