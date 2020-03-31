@@ -18,7 +18,7 @@ export class HomePage implements OnInit {
      ) {}
 
   ngOnInit(): void {
-    this.authService.loggedUserData$.subscribe(async (data) => this.loggedUser = await data);
+    this.authService.loggedUserData.subscribe((data) => this.loggedUser = data);
   }
   
 

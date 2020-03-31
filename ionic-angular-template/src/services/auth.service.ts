@@ -10,12 +10,10 @@ import { StorageService } from './storage.service';
   providedIn: 'root'
 })
 export class AuthService {
-  public loggedUserDataSubject$ = new BehaviorSubject<any>(
-    this.getUserDataIfAuthenticated()
-  );
+  public loggedUserDataSubject = new BehaviorSubject<any>(null);
 
-  public get loggedUserData$() {
-    return this.loggedUserDataSubject$.asObservable();
+  public get loggedUserData() {
+    return this.loggedUserDataSubject.asObservable();
   }
   constructor(
     private storageService: StorageService,
@@ -26,7 +24,7 @@ export class AuthService {
         if (currentUser) {
           this.storageService.setItem('user', JSON.stringify(currentUser));
           const user = (await firebase.firestore().collection('users').doc(`${currentUser.uid}`).get()).data();
-          this.loggedUserDataSubject$.next(user);
+          this.loggedUserDataSubject.next(user);
           return;
         }
         this.storageService.removeItem('user');
@@ -48,7 +46,7 @@ export class AuthService {
       const wallet = ethers.Wallet.createRandom();
       const encryptJson = await wallet.encrypt(password);
       const user: any = await this.createUser(encryptJson, currentUser.user.uid, email);
-      this.loggedUserDataSubject$.next(user.user);
+      this.loggedUserDataSubject.next(user.user);
     } catch (e) {
       throw new Error(e);
     }
@@ -89,17 +87,17 @@ export class AuthService {
     await this.api.put(`${environment.apiUrl}/users/wallet`, {uid, wallet});
   }
 
-  async getUserDataIfAuthenticated() {
-    const loggedUser = JSON.parse(this.storageService.getItem('user'));
-    if (loggedUser) {
-      return (await firebase.firestore().collection('users').doc(`${loggedUser.uid}`).get()).data();
-    }
-    return null;
-  }
+  // async getUserDataIfAuthenticated() {
+  //   const loggedUser = JSON.parse(this.storageService.getItem('user'));
+  //   if (loggedUser) {
+  //     return (await firebase.firestore().collection('users').doc(`${loggedUser.uid}`).get()).data();
+  //   }
+  //   return null;
+  // }
 
   async logout() {
     this.storageService.removeItem('user');
-    this.loggedUserDataSubject$.next(null);
+    this.loggedUserDataSubject.next(null);
     await firebase.auth().signOut();
   }
 
