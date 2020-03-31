@@ -9,8 +9,7 @@ import { Router } from '@angular/router';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage implements OnInit, OnDestroy {
-  private loggedUserSubscription: Subscription;
+export class HomePage implements OnInit {
   public loggedUser: any;
   constructor(
     private authService: AuthService,
@@ -19,13 +18,9 @@ export class HomePage implements OnInit, OnDestroy {
      ) {}
 
   ngOnInit(): void {
-    this.loggedUserSubscription = this.authService.loggedUserData$.subscribe(async (data) => this.loggedUser = await data);
+    this.authService.loggedUserData$.subscribe(async (data) => this.loggedUser = await data);
   }
-  ngOnDestroy(): void {
-    if (this.loggedUserSubscription) {
-      this.loggedUserSubscription.unsubscribe();
-    }
-  }
+  
 
   logout() {
     this.authService.logout();
