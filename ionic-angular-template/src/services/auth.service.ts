@@ -19,7 +19,6 @@ export class AuthService {
   }
   constructor(
     private storageService: StorageService,
-    // private notificationService: NotificationService,
     private api: Api
     ) {
       firebase.auth().onAuthStateChanged(async currentUser => {

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-verify-email',
@@ -14,9 +15,9 @@ export class VerifyEmailComponent {
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    // private notificationService: NotificationService,
     private authService: AuthService,
-  ) { 
+    private toastService: ToastService
+    ) { 
     this.activatedRoute.queryParams
     .subscribe(async (params) => {
       if (!params) {
@@ -26,10 +27,10 @@ export class VerifyEmailComponent {
       this.actionCode = params.oobCode;
       try {
           await this.authService.verifyEmail(this.actionCode);
-          // this.notificationService.success('Your email was verified !');
+          this.toastService.success('Your email was verified !');
           this.router.navigate(['signin']);
         } catch (e) {
-          // this.notificationService.error(e);
+          this.toastService.error(e.message);
         }
   });
   }

@@ -4,6 +4,7 @@ import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -18,11 +19,12 @@ export class SignInComponent implements OnInit {
     private router: Router,
     private alertCtrl: AlertController,
     private formBuilder: FormBuilder,
-    private tranlateService: TranslateService
+    private tranlateService: TranslateService,
+    private toastService: ToastService
   ) { }
 
   ngOnInit() {
-    this.tranlateService.get('Info-messages').subscribe((messages) => {
+    this.tranlateService.get('info-messages').subscribe((messages) => {
       this.infoMessages = messages;
     });
     this.signInForm = this.formBuilder.group({
@@ -48,10 +50,9 @@ export class SignInComponent implements OnInit {
         this.showInfoAlert();
         }
         await this.authService.getUserData();
-          // this.notificationService.success('Successfully logged!');
         this.router.navigate(['']);
         } catch(e) {
-              this.showErrorAlert(e);
+              this.showErrorAlert(e.message);
         }
     }
 
@@ -59,8 +60,8 @@ export class SignInComponent implements OnInit {
       const alert = await this.alertCtrl
         .create({
           header: `${this.infoMessages.authFailed}`,
-          message: message,
-          buttons: ['Okay']
+          message,
+          buttons: [`${this.infoMessages.button}`]
         })
         alert.present();
     }
@@ -70,7 +71,14 @@ export class SignInComponent implements OnInit {
         .create({
           header: `${this.infoMessages.infoMessage}`,
           message: `${this.infoMessages.message}`,
-          buttons: [`${this.infoMessages.button}`]
+          buttons: [
+          {
+            text: `${this.infoMessages.button}`,
+            handler: () => {
+              this.toastService.success(`${this.infoMessages.successfullyLogged}`);
+            }
+          }
+        ]
         })
         alert.present();
     }

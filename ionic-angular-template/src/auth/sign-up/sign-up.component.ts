@@ -4,6 +4,7 @@ import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -18,7 +19,8 @@ export class SignUpComponent implements OnInit {
     private router: Router,
     private alertCtrl: AlertController,
     private formBuilder: FormBuilder,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private toastService: ToastService
   ) { }
 
   ngOnInit() {
@@ -68,7 +70,14 @@ export class SignUpComponent implements OnInit {
       .create({
         header: `${this.infoMessages.infoMessage}`,
         message: `${this.infoMessages.message}`,
-        buttons: [`${this.infoMessages.button}`]
+        buttons: [
+          {
+            text: `${this.infoMessages.button}`,
+            handler: () => {
+              this.toastService.success(`${this.infoMessages.successfullyLogged}`);
+            }
+          }
+        ]
       })
       alert.present();
   }
