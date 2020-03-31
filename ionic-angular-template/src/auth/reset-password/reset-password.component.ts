@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, ValidationErrors, AbstractControl } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { Validator } from '../../validators/validator';
+import { EqualValueValidator } from '../../validators/validator';
 
 @Component({
   selector: 'app-reset-password',
@@ -18,12 +18,12 @@ export class ResetPasswordComponent {
     private activatedRoute: ActivatedRoute,
     private authService: AuthService,
     private readonly formBuilder: FormBuilder,
-    private validator: Validator
+    private equalValueValidator: EqualValueValidator
     // private notificationService: NotificationService
   ) {
     this.resetPasswordForm = this.formBuilder.group({
       newPassword: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', [Validators.required, Validators.minLength(6), this.validator.matchValues('newPassword')]]
+      confirmPassword: ['', [Validators.required, Validators.minLength(6), this.equalValueValidator.matchValues('newPassword')]]
     }) ;
     this.getActivatedRoute();
   }

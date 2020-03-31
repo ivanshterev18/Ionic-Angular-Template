@@ -1,6 +1,6 @@
 import { ValidationErrors, AbstractControl } from '@angular/forms';
 
-export class Validator {
+export class EqualValueValidator {
     public matchValues(
         matchTo: string
       ): (AbstractControl) => ValidationErrors | null {
