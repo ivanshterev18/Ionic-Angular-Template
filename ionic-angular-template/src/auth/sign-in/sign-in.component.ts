@@ -22,7 +22,7 @@ export class SignInComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.tranlateService.get('Info-messages').subscribe((messages) => {
+    this.tranlateService.get('info-messages').subscribe((messages) => {
       this.infoMessages = messages;
     });
     this.signInForm = this.formBuilder.group({
