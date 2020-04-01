@@ -22,8 +22,10 @@ export class SignInComponent implements OnInit {
     private translateService: TranslateService,
     private toastService: ToastService
   ) { 
-    this.translateService.get('info-messages').subscribe((messages) => {
-      this.infoMessages = messages;
+    this.translateService.stream([
+      'info-messages',
+    ]).subscribe(translations => {
+      this.infoMessages = translations['info-messages']
     });
   }
 
