@@ -87,14 +87,6 @@ export class AuthService {
     await this.api.put(`${environment.apiUrl}/users/wallet`, {uid, wallet});
   }
 
-  // async getUserDataIfAuthenticated() {
-  //   const loggedUser = JSON.parse(this.storageService.getItem('user'));
-  //   if (loggedUser) {
-  //     return (await firebase.firestore().collection('users').doc(`${loggedUser.uid}`).get()).data();
-  //   }
-  //   return null;
-  // }
-
   async logout() {
     this.storageService.removeItem('user');
     this.loggedUserDataSubject.next(null);
