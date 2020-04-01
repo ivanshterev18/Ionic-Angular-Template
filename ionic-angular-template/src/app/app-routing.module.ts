@@ -3,6 +3,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { ForgotPasswordComponent } from '../auth/forgot-password/forgot-password.component';
 import { SignInComponent } from '../auth/sign-in/sign-in.component';
 import { SignUpComponent } from '../auth/sign-up/sign-up.component';
+import { ResetPasswordComponent } from '../auth/reset-password/reset-password.component';
 import { VerifyEmailComponent } from '../auth/verify-email/verify-email.component';
 import { AuthGuard } from '../guards/auth.guard';
 import { LoggedInGuard } from '../guards/logged.guard';
@@ -37,10 +38,15 @@ const routes: Routes = [
     pathMatch: 'full'
   },  
   { 
+    path: 'resetPassword', 
+    component: ResetPasswordComponent, 
+    pathMatch: 'full'
+  },  
+  {
     path: 'verifyEmail', 
     component: VerifyEmailComponent, 
     pathMatch: 'full'
-  },  
+  }
 ];
 
 @NgModule({
