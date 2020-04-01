@@ -21,14 +21,15 @@ export class SignUpComponent implements OnInit {
     private formBuilder: FormBuilder,
     private translateService: TranslateService,
     private toastService: ToastService
-  ) { }
-
-  ngOnInit() {
+  ) {
     this.translateService.stream([
       'info-messages',
     ]).subscribe(translations => {
       this.infoMessages = translations['info-messages']
     });
+   }
+
+  ngOnInit() {
     this.signUpForm = this.formBuilder.group({
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required, Validators.minLength(6)])

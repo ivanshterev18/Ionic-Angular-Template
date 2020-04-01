@@ -4,6 +4,8 @@
     "message": "If you want to use all functionalities you have to verify your email first!",
     "button": "Okey",
     "authFailed": "Authentication Failed",
-    "successfullyLogged": "Successfully logged!"
+    "successfullyLogged": "Successfully logged!",
+    "emailSent": "Email was sent!",
+    "emailVerified": "Your email was verified !"
   }
 }

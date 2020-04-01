@@ -19,14 +19,15 @@ export class SignInComponent implements OnInit {
     private router: Router,
     private alertCtrl: AlertController,
     private formBuilder: FormBuilder,
-    private tranlateService: TranslateService,
+    private translateService: TranslateService,
     private toastService: ToastService
-  ) { }
-
-  ngOnInit() {
-    this.tranlateService.get('info-messages').subscribe((messages) => {
+  ) { 
+    this.translateService.get('info-messages').subscribe((messages) => {
       this.infoMessages = messages;
     });
+  }
+
+  ngOnInit() {
     this.signInForm = this.formBuilder.group({
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required, Validators.minLength(6)])
