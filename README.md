@@ -89,6 +89,15 @@ Methods:
 
   - Checks query params and if they contain actionCode calls auth service's verifyEmail method to verify this actionCode.
 
+### Reset Password Component
+
+Methods: 
+
+- `async resetPassword()`
+
+  - Takes a password from getter, verifies it and calls auth service's resetPassword method to reset it.
+
+
 ### Auth Service
 
 Methods: 
@@ -159,6 +168,3 @@ Methods:
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-- async sentResetPasswordEmail(email: string) {
-    await firebase.auth().sendPasswordResetEmail(email);
-  }
