@@ -4,6 +4,9 @@ import { ForgotPasswordComponent } from '../auth/forgot-password/forgot-password
 import { SignInComponent } from '../auth/sign-in/sign-in.component';
 import { SignUpComponent } from '../auth/sign-up/sign-up.component';
 import { ResetPasswordComponent } from '../auth/reset-password/reset-password.component';
+import { VerifyEmailComponent } from '../auth/verify-email/verify-email.component';
+import { AuthGuard } from '../guards/auth.guard';
+import { LoggedInGuard } from '../guards/logged.guard';
 
 const routes: Routes = [
   { 
@@ -12,19 +15,22 @@ const routes: Routes = [
     pathMatch: 'full' 
   },
   { 
+    path: 'home', 
+    loadChildren: () => import('./home/home.module')
+    .then( m => m.HomePageModule),
+    canActivate: [AuthGuard]
+  },
+  { 
     path: 'signin',
     component: SignInComponent,
     pathMatch: 'full',
+    canActivate: [LoggedInGuard]
   },
   { 
     path: 'signup',
     component: SignUpComponent,
     pathMatch: 'full',
-  },
-  { 
-    path: 'home', 
-    loadChildren: () => import('./home/home.module')
-    .then( m => m.HomePageModule)
+    canActivate: [LoggedInGuard]
   },
   { 
     path: 'forgotPassword', 
@@ -36,6 +42,11 @@ const routes: Routes = [
     component: ResetPasswordComponent, 
     pathMatch: 'full'
   },  
+  {
+    path: 'verifyEmail', 
+    component: VerifyEmailComponent, 
+    pathMatch: 'full'
+  }
 ];
 
 @NgModule({

@@ -43,11 +43,18 @@
                 </ion-label>
               </ion-item>
             </ion-list>
+            <div class="ion-margin-top ion-margin-bottom">
+              <ion-label>
+                <a [routerLink]="['/forgotPassword']">Forgot password?</a>
+              </ion-label>
+              <ion-label class="ion-float-right">
+                <a [routerLink]="['/signup']">Create an account</a>
+              </ion-label>
+            </div>
             <ion-button
-            class="auth-button"
             color="primary"
             expand="block"
-            [disabled]="!signInForm.valid"
+            [disabled]="signInForm.invalid"
             (click)='signIn()'
           >
             Login
