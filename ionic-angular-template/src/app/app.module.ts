@@ -19,7 +19,9 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from '../interceptors/token-interceptor';
 import { ForgotPasswordComponent } from '../auth/forgot-password/forgot-password.component';
 import { SignUpComponent } from '../auth/sign-up/sign-up.component';
+import { ResetPasswordComponent } from '../auth/reset-password/reset-password.component';
 import { VerifyEmailComponent } from '../auth/verify-email/verify-email.component';
+import { EqualValueValidator } from '../validators/validator';
 
 firebase.initializeApp(environment.firebase);
 
@@ -28,7 +30,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 }
 
 @NgModule({
-  declarations: [AppComponent, SignInComponent, ForgotPasswordComponent, SignUpComponent, VerifyEmailComponent],
+  declarations: [AppComponent, SignInComponent, ForgotPasswordComponent, SignUpComponent, ResetPasswordComponent, VerifyEmailComponent],
   entryComponents: [],
   imports: [
     ReactiveFormsModule,
@@ -46,6 +48,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   })
   ],
   providers: [
+    EqualValueValidator,
     StatusBar,
     SplashScreen,
     { 

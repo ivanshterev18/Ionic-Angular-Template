@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm, FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -18,13 +19,15 @@ export class SignInComponent implements OnInit {
     private router: Router,
     private alertCtrl: AlertController,
     private formBuilder: FormBuilder,
-    private tranlateService: TranslateService
-  ) { }
-
-  ngOnInit() {
-    this.tranlateService.get('Info-messages').subscribe((messages) => {
+    private translateService: TranslateService,
+    private toastService: ToastService
+  ) { 
+    this.translateService.get('info-messages').subscribe((messages) => {
       this.infoMessages = messages;
     });
+  }
+
+  ngOnInit() {
     this.signInForm = this.formBuilder.group({
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required, Validators.minLength(6)])
@@ -48,10 +51,9 @@ export class SignInComponent implements OnInit {
         this.showInfoAlert();
         }
         await this.authService.getUserData();
-          // this.notificationService.success('Successfully logged!');
         this.router.navigate(['']);
         } catch(e) {
-              this.showErrorAlert(e);
+              this.showErrorAlert(e.message);
         }
     }
 
@@ -59,8 +61,8 @@ export class SignInComponent implements OnInit {
       const alert = await this.alertCtrl
         .create({
           header: `${this.infoMessages.authFailed}`,
-          message: message,
-          buttons: ['Okay']
+          message,
+          buttons: [`${this.infoMessages.button}`]
         })
         alert.present();
     }
@@ -70,7 +72,14 @@ export class SignInComponent implements OnInit {
         .create({
           header: `${this.infoMessages.infoMessage}`,
           message: `${this.infoMessages.message}`,
-          buttons: [`${this.infoMessages.button}`]
+          buttons: [
+          {
+            text: `${this.infoMessages.button}`,
+            handler: () => {
+              this.toastService.success(`${this.infoMessages.successfullyLogged}`);
+            }
+          }
+        ]
         })
         alert.present();
     }

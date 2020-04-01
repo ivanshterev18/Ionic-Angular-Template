@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { ToastService } from '../../services/toast.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-verify-email',
@@ -8,15 +10,19 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./verify-email.component.scss'],
 })
 export class VerifyEmailComponent {
-  
+  private infoMessages: any;
   public mode: string;
   public actionCode: string;
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    // private notificationService: NotificationService,
     private authService: AuthService,
-  ) { 
+    private toastService: ToastService,
+    private translateService: TranslateService,
+    ) { 
+    this.translateService.get('info-messages').subscribe((messages) => {
+      this.infoMessages = messages;
+    });
     this.activatedRoute.queryParams
     .subscribe(async (params) => {
       if (!params) {
@@ -26,10 +32,10 @@ export class VerifyEmailComponent {
       this.actionCode = params.oobCode;
       try {
           await this.authService.verifyEmail(this.actionCode);
-          // this.notificationService.success('Your email was verified !');
+          this.toastService.success(`${this.infoMessages.emailVerified}`);
           this.router.navigate(['signin']);
         } catch (e) {
-          // this.notificationService.error(e);
+          this.toastService.error(e.message);
         }
   });
   }
