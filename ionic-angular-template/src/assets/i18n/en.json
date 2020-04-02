@@ -6,6 +6,8 @@
     "authFailed": "Authentication Failed",
     "successfullyLogged": "Successfully logged!",
     "emailSent": "Email was sent!",
-    "emailVerified": "Your email was verified !"
+    "emailVerified": "Your email was verified !",
+    "passwordChanged": "Your password was changed !",
+    "successfullyLogout": "Successfully logout"
   }
 }

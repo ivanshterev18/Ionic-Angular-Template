@@ -3,6 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-home',
@@ -10,12 +11,18 @@ import { Router } from '@angular/router';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit {
+  private infoMessages: any;
   public loggedUser: any;
   constructor(
     private authService: AuthService,
     private router: Router,
-    // private notificationService: NotificationService
-     ) {}
+    private tranlateService: TranslateService,
+    private toastService: ToastService
+    ) {
+      this.tranlateService.get('info-messages').subscribe((messages) => {
+        this.infoMessages = messages;
+      });
+    }
 
   ngOnInit(): void {
     this.authService.loggedUserData.subscribe((data) => this.loggedUser = data);
@@ -23,8 +30,12 @@ export class HomePage implements OnInit {
   
 
   logout() {
-    this.authService.logout();
-    // this.notificationService.success('Successfully logout');
-    this.router.navigate(['/signin']);
+    try {
+      this.authService.logout();
+      this.toastService.success(`${this.infoMessages.successfullyLogout}`);
+      this.router.navigate(['/signin']);
+    } catch(e) {
+      this.toastService.error(e.message);
+    }
   }
 }
