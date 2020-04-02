@@ -18,13 +18,15 @@ export class ForgotPasswordComponent {
     private route: Router,
     private toastService: ToastService,
     private authService: AuthService,
-    private tranlateService: TranslateService,
+    private translateService: TranslateService,
   ) {
     this.forgotPasswordForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
     });
-    this.tranlateService.get('info-messages').subscribe((messages) => {
-      this.infoMessages = messages;
+    this.translateService.stream([
+      'info-messages',
+    ]).subscribe(translations => {
+      this.infoMessages = translations['info-messages']
     });
    }
 

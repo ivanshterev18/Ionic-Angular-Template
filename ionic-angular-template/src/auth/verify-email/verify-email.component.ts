@@ -20,8 +20,10 @@ export class VerifyEmailComponent {
     private toastService: ToastService,
     private translateService: TranslateService,
     ) { 
-    this.translateService.get('info-messages').subscribe((messages) => {
-      this.infoMessages = messages;
+    this.translateService.stream([
+      'info-messages',
+    ]).subscribe(translations => {
+      this.infoMessages = translations['info-messages']
     });
     this.activatedRoute.queryParams
     .subscribe(async (params) => {
